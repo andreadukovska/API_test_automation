@@ -1,0 +1,46 @@
+# Python bytecode and test/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Generated test and coverage reports
+reports/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+junit.xml
+report.html
+report_assets/
+
+# Local VS Code configuration; allow shared settings and extensions
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.secrets/
+secrets/
+*.pem
+*.key
+
+# macOS metadata and temporary files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+Temporary Items/
