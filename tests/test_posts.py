@@ -1,24 +1,23 @@
  #Verify that the GET /posts endpoint responds successfully with HTTP status code 200.
 
 import requests
+from config import BASE_URL, REQUEST_TIMEOUT
 
+# Verify that GET /posts returns status 200 and a list of posts.
 def test_get_posts_returns_successful_list_response():
     response = requests.get(
-        "https://jsonplaceholder.typicode.com/posts",
-        timeout = 10
+        f"{BASE_URL}/posts",
+        timeout=REQUEST_TIMEOUT
     )
-
     assert response.status_code == 200
-
     posts = response.json()
     assert isinstance(posts, list)
 
 # Verify that GET /posts/1 returns the requested post.
-
 def test_get_single_post_returns_correct_id():
     response = requests.get(
         "https://jsonplaceholder.typicode.com/posts/1",
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 200
@@ -34,7 +33,7 @@ def test_get_single_post_returns_correct_id():
 def test_get_nonexistent_post_returns_404():
     response = requests.get(
         "https://jsonplaceholder.typicode.com/posts/99999",
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 404
@@ -50,7 +49,7 @@ def test_create_post_returns_201():
     response = requests.post(
         "https://jsonplaceholder.typicode.com/posts",
         json=payload,
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 201
@@ -73,7 +72,7 @@ def test_update_post_returns_200():
     response = requests.put(
         "https://jsonplaceholder.typicode.com/posts/1",
         json=payload,
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 200
@@ -93,7 +92,7 @@ def test_patch_post_title_returns_200():
     response = requests.patch(
         "https://jsonplaceholder.typicode.com/posts/1",
         json=payload,
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 200
@@ -106,7 +105,7 @@ def test_patch_post_title_returns_200():
 def test_delete_post_returns_200():
     response = requests.delete(
         "https://jsonplaceholder.typicode.com/posts/1",
-        timeout=10
+        timeout=REQUEST_TIMEOUT
     )
 
     assert response.status_code == 200
