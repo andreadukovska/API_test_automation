@@ -1,28 +1,39 @@
+import pytest
 
-
-# Verify that GET /posts returns status 200 and a list of posts.
+# Verify that GET /posts returns a valid list of posts.
 def test_get_posts_returns_successful_list_response(client):
     response = client.get("/posts")
 
     assert response.status_code == 200
-    posts = response.json()
-    assert isinstance(posts, list)
+    assert "application/json" in response.headers["Content-Type"]
 
-# Verify that GET /posts/1 returns the requested post.
-def test_get_single_post_returns_correct_id(client):
-    response = client.get("/posts/1")
+    posts = response.json()
+
+    assert isinstance(posts, list)
+    assert len(posts) == 100
+
+    for post in posts:
+        assert isinstance(post["id"], int)
+        assert isinstance(post["userId"], int)
+        assert isinstance(post["title"], str) and post["title"].strip()
+        assert isinstance(post["body"], str) and post["body"].strip()
+
+# Verify that GET /posts/{id} returns the requested post.
+@pytest.mark.parametrize("post_id", [1, 50, 100])
+def test_get_single_post_returns_correct_id(client, post_id):
+    response = client.get(f"/posts/{post_id}")
 
     assert response.status_code == 200
     post = response.json()
-    assert post["id"] == 1
+    assert post["id"] == post_id
     assert "title" in post
     assert isinstance(post["title"], str) and post["title"].strip()
     assert isinstance(post["body"], str) and post["body"].strip()
 
-
 # Verify that requesting a nonexistent post returns HTTP 404.
-def test_get_nonexistent_post_returns_404(client):
-    response = client.get("/posts/99999")
+@pytest.mark.parametrize("post_id", [0, 101, 99999])
+def test_get_nonexistent_post_returns_404(client, post_id):
+    response = client.get(f"/posts/{post_id}")
 
     assert response.status_code == 404
 
